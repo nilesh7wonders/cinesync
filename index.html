@@ -7,57 +7,53 @@
 <style>
   * { margin:0; padding:0; box-sizing:border-box; font-family:sans-serif; }
   body { min-height:100vh; display:flex; align-items:center; justify-content:center;
-         background:#f4f1ea; color:#222; transition:0.3s; }
+         background:#f4f1ea; color:#222; }
   body.dark { background:#141414; color:#eee; }
   .card { width:100%; max-width:420px; padding:32px 24px; }
-  .center { text-align:center; }
+  .c { text-align:center; }
   .logo { font-size:40px; }
   h1 { font-size:26px; margin:8px 0 4px; }
   .tag { font-size:14px; opacity:0.7; margin-bottom:24px; }
   .field { margin-bottom:16px; }
   .field label { font-size:14px; display:block; margin-bottom:6px; }
   input, select { width:100%; padding:14px; font-size:16px; border:1px solid #bbb;
-          border-radius:10px; background:#fff; color:#222; }
+    border-radius:10px; background:#fff; color:#222; }
   body.dark input, body.dark select { background:#222; color:#eee; border-color:#555; }
   .btn { width:100%; padding:14px; font-size:17px; border:none; border-radius:10px;
-         background:#c0392b; color:#fff; font-weight:bold; cursor:pointer; margin-top:8px; }
+    background:#c0392b; color:#fff; font-weight:bold; cursor:pointer; margin-top:8px; }
   .btn.ghost { background:transparent; color:inherit; border:1px solid #999; margin-top:12px; }
   .top { position:fixed; top:14px; right:14px; display:flex; gap:8px; }
-  .chip { padding:6px 10px; border-radius:20px; border:1px solid #999;
-          font-size:13px; cursor:pointer; background:transparent; color:inherit; }
+  .chip { padding:6px 10px; border-radius:20px; border:1px solid #999; font-size:13px;
+    cursor:pointer; background:transparent; color:inherit; }
   .chip.on { background:#c0392b; color:#fff; border-color:#c0392b; }
-  .screen { display:none; }
-  .screen.on { display:block; }
-  .back { float:left; font-size:22px; cursor:pointer; background:none;
-          border:none; color:inherit; margin-bottom:12px; }
+  .screen { display:none; } .screen.on { display:block; }
+  .back { float:left; font-size:22px; cursor:pointer; background:none; border:none;
+    color:inherit; margin-bottom:12px; }
   .otp { display:flex; gap:8px; justify-content:center; margin:18px 0; }
   .otp input { width:44px; height:54px; text-align:center; font-size:22px;
-               font-weight:bold; padding:0; }
+    font-weight:bold; padding:0; }
   .msg { font-size:13px; margin-top:12px; min-height:18px; }
-  .msg.err { color:#c0392b; }
-  .msg.ok { color:#27ae60; }
+  .msg.err { color:#c0392b; } .msg.ok { color:#27ae60; }
   .types { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:8px 0 4px; }
-  .type { padding:14px 8px; border:2px solid #bbb; border-radius:12px;
-          cursor:pointer; font-size:15px; font-weight:bold; text-align:center; }
+  .type { padding:14px 8px; border:2px solid #bbb; border-radius:12px; cursor:pointer;
+    font-size:15px; font-weight:bold; text-align:center; }
   body.dark .type { border-color:#555; }
   .type.on { border-color:#c0392b; background:rgba(192,57,43,0.1); }
   .type small { display:block; font-weight:normal; opacity:0.6; font-size:11px; margin-top:4px; }
-  .tabs { display:flex; gap:8px; margin-bottom:16px; }
-  .tab { flex:1; padding:10px; text-align:center; font-size:14px; font-weight:bold;
-         border:1px solid #999; border-radius:10px; cursor:pointer; }
-  .tab.on { background:#c0392b; color:#fff; border-color:#c0392b; }
-  .item { padding:12px 14px; border:1px solid #bbb; border-radius:10px;
-          margin-bottom:8px; display:flex; justify-content:space-between;
-          align-items:center; font-size:15px; gap:8px; }
+  .item { padding:12px 14px; border:1px solid #bbb; border-radius:10px; margin-bottom:8px;
+    display:flex; justify-content:space-between; align-items:center; font-size:15px; gap:8px; }
   body.dark .item { border-color:#555; }
-  .badge { font-size:11px; padding:3px 8px; border-radius:10px;
-           background:#c0392b; color:#fff; white-space:nowrap; }
-  .badge.gray { background:#888; }
+  .badge { font-size:11px; padding:3px 8px; border-radius:10px; background:#c0392b;
+    color:#fff; white-space:nowrap; }
+  .badge.g { background:#888; }
   .del { background:none; border:none; color:#c0392b; font-size:18px; cursor:pointer; }
   .code { font-size:26px; font-weight:bold; letter-spacing:4px; text-align:center;
-          padding:14px; border:2px dashed #c0392b; border-radius:12px; margin:14px 0;
-          color:#c0392b; }
+    padding:14px; border:2px dashed #c0392b; border-radius:12px; margin:14px 0; color:#c0392b; }
   .empty { font-size:13px; opacity:0.6; text-align:center; padding:12px; }
+  .tabs { display:flex; gap:8px; margin-bottom:16px; }
+  .tab { flex:1; padding:10px; text-align:center; font-size:14px; font-weight:bold;
+    border:1px solid #999; border-radius:10px; cursor:pointer; }
+  .tab.on { background:#c0392b; color:#fff; border-color:#c0392b; }
 </style>
 </head>
 <body>
@@ -68,19 +64,17 @@
     <button class="chip" onclick="toggleDark()">🌓</button>
   </div>
 
-  <!-- 1: Login -->
-  <div class="card center screen on" id="scrLogin">
+  <div class="card c screen on" id="scrLogin">
     <div class="logo">🎬</div>
     <h1>CineSync</h1>
     <p class="tag" id="tag"></p>
     <div class="field"><label id="lblPhone"></label>
       <input type="text" id="phone" placeholder="+91 ..."></div>
     <button class="btn" onclick="sendOtp()" id="btnNext"></button>
-    <button class="btn ghost">G — <span id="lblGoogle"></span></button>
+    <button class="btn ghost" id="lblGoogle"></button>
   </div>
 
-  <!-- 2: OTP -->
-  <div class="card center screen" id="scrOtp">
+  <div class="card c screen" id="scrOtp">
     <button class="back" onclick="show('scrLogin')">←</button>
     <div class="logo">🔐</div>
     <h1>CineSync</h1>
@@ -90,69 +84,60 @@
     <p class="msg" id="otpMsg"></p>
   </div>
 
-  <!-- 3: પ્રોજેક્ટ ઘર -->
-  <div class="card center screen" id="scrHome">
+  <div class="card c screen" id="scrHome">
     <div class="logo">🎬</div>
     <h1>CineSync</h1>
     <p class="tag" id="homeTag"></p>
-    <div id="plistBox" style="text-align:left">
-      <div id="plist"></div>
-    </div>
+    <div id="plist" style="text-align:left"></div>
     <button class="btn" onclick="show('scrNew')" id="btnNew"></button>
     <button class="btn ghost" onclick="show('scrContacts')" id="btnContacts"></button>
     <button class="btn ghost" onclick="show('scrTeam')" id="btnTeam"></button>
     <button class="btn ghost" onclick="logout()" id="btnOut"></button>
   </div>
 
-  <!-- 4: નવું પ્રોજેક્ટ -->
   <div class="card screen" id="scrNew">
     <button class="back" onclick="show('scrHome')">←</button>
-    <div class="center"><div class="logo">🎬</div>
-    <h1 id="lblNewTitle"></h1><p class="tag" id="lblNewTag"></p></div>
+    <div class="c"><div class="logo">🎬</div>
+      <h1 id="lblNewTitle"></h1><p class="tag" id="lblNewTag"></p></div>
     <div class="field"><label id="lblPName"></label><input type="text" id="pname"></div>
     <div class="field"><label id="lblPType"></label><div class="types" id="types"></div></div>
     <button class="btn" onclick="createProject()" id="btnCreate"></button>
     <p class="msg" id="pMsg"></p>
   </div>
 
-  <!-- 5: Contacts (1.4) -->
   <div class="card screen" id="scrContacts">
     <button class="back" onclick="show('scrHome')">←</button>
-    <div class="center"><div class="logo">📇</div>
-    <h1 id="lblCTitle"></h1><p class="tag" id="lblCTag"></p></div>
-   <div class="field"><label="lblCName"></label><input type="text" idcname"></div>
- <div class="field<label id="lblC"></label><input type="text" id="c" placeholder91 ..."></div>
-    <div class="field"><label id="lblCRole"></label><input type="text" id="crole" id2=""></div>
+    <div class="c"><div class="logo">📇</div>
+      <h1 id="lblCTitle"></h1><p class="tag" id="lblCTag"></p></div>
+    <div class="field"><label id="lblCName"></label><input type="text" id="cname"></div>
+    <div class="field"><label id="lblCPhone"></label><input type="text" id="cphone" placeholder="+91 ..."></div>
+    <div class="field"><label id="lblCRole"></label><input type="text" id="crole"></div>
     <button class="btn" onclick="addContact()" id="btnAddC"></button>
     <p class="msg" id="cMsg"></p>
     <div id="clist" style="margin-top:16px"></div>
   </div>
 
-  <!-- 6: Team / Join (1.) -->
   <div class="card screen" id="scrTeam">
     <button class="back" onclick="show('scrHome')">←</button>
-    <div class="center"><div class="logo">👥</div>
-    <h1 id="lblTTitle"></h1><p class="tag" id="lblTTag"></p></div>
-
+    <div class="c"><div class="logo">👥</div>
+      <h1 id="lblTTitle"></h1><p class="tag" id="lblTTag"></p></div>
     <div class="tabs">
       <div class="tab on" id="tabMake" onclick="teamTab('make')"></div>
       <div class="tab" id="tabJoin" onclick="teamTab('join')"></div>
     </div>
-
     <div id="paneMake">
-      <div class="field"><label id="lblJoinP"></label>
-        <select id="joinProj"></select></div>
+      <div class="field"><label id="lblJoinP"></label><select id="joinProj"></select></div>
       <button class="btn" onclick="makeCode()" id="btnMake"></button>
       <div id="codeBox" style="display:none">
         <div class="code" id="joinCode"></div>
-        <p class="msg ok center" id="codeNote"></p>
+        <p class="msg ok c" id="codeNote"></p>
       </div>
       <div id="mlist" style="margin-top:16px"></div>
     </div>
-
     <div id="paneJoin" style="display:none">
       <div class="field"><label id="lblJoinCode"></label>
-        <input type="text" id="joinInput" placeholder="XXXXXX" style="letter-spacing:4px; text-transform:uppercase"></div>
+        <input type="text" id="joinInput" placeholder="XXXXXX"
+          style="letter-spacing:4px; text-transform:uppercase"></div>
       <button class="btn" onclick="doJoin()" id="btnJoin"></button>
       <p class="msg" id="jMsg"></p>
     </div>
@@ -161,81 +146,74 @@
 <script>
 const T = {
   en: { tag:"Film Production, One Chain — Script to Budget",
-        phone:"Phone or Email", next:"Continue", google:"Sign in with Google",
-        otpTag:"Enter the 6-digit code", verify:"Verify & Enter", wrong:"Wrong code — try again",
-        homeTag:"Your Projects", newBtn:"+ New Project", contacts:"📇 Contacts",
-        team:"👥 Team / Join", out:"Log out",
-        newTitle:"New Project", newTag:"Step 1 of the chain",
-        pName:"Project name", pType:"Project type", create:"Create Project",
-        needName:"Enter project name first", needType:"Select a project type",
-        created:"Project created!",
-        types:[["Feature Film","Sc 1, 2, 3…"],["Web Series","Ep 1 – Sc 1…"],
-               ["Documentary","Part 1, 2…"],["Ad Film","Sc 1…"],["Short Film","Sc 1…"]],
-        cTitle:"Contacts", cTag:"Your master phone book — used in every project",
-        cName:"Full name", cPhone:"Phone number", cRole:"Role (Director, Actor…)",
-        addC:"Add Contact", cNeed:"Enter name and phone", cAdded:"Contact added!",
-        noC:"No contacts yet — add the first one",
-        tTitle:"Team", tTag:"Make a join code or join a project",
-        make:"Make Code", join:"Join",
-        joinP:"Choose project", makeBtn:"Generate Join Code",
-        codeNote:"Share this code — teammates enter it in Join",
-        mAdd:"Members who joined appear here", mNone:"No members yet",
-        joinCodeL:"Join code", joinBtn:"Join Project",
-        jOk:"Joined!", jBad:"Wrong code" },
+    phone:"Phone or Email", next:"Continue", google:"Sign in with Google",
+    otpTag:"Enter the 6-digit code", verify:"Verify & Enter", wrong:"Wrong code — try again",
+    homeTag:"Your Projects", newBtn:"+ New Project", contacts:"📇 Contacts",
+    team:"👥 Team / Join", out:"Log out",
+    newTitle:"New Project", newTag:"Step 1 of the chain",
+    pName:"Project name", pType:"Project type", create:"Create Project",
+    needName:"Enter project name first", needType:"Select a project type",
+    created:"Project created!",
+    types:[["Feature Film","Sc 1, 2, 3…"],["Web Series","Ep 1 – Sc 1…"],
+      ["Documentary","Part 1, 2…"],["Ad Film","Sc 1…"],["Short Film","Sc 1…"]],
+    cTitle:"Contacts", cTag:"Your master phone book — used in every project",
+    cName:"Full name", cPhone:"Phone number", cRole:"Role (Director, Actor…)",
+    addC:"Add Contact", cNeed:"Enter name and phone", cAdded:"Contact added!",
+    noC:"No contacts yet — add the first one",
+    tTitle:"Team", tTag:"Make a join code or join a project",
+    make:"Make Code", join:"Join", joinP:"Choose project",
+    makeBtn:"Generate Join Code", codeNote:"Share this code — teammates enter it in Join",
+    mNone:"No members yet", joinCodeL:"Join code", joinBtn:"Join Project",
+    jOk:"Joined!", jBad:"Wrong code" },
   hi: { tag:"फिल्म प्रोडक्शन, एक श्रृंखला — Script से Budget तक",
-        phone:"फ़ोन या ईमेल", next:"आगे बढ़ें", google:"Google से प्रवेश",
-        otpTag:"6 अंक का कोड डालें", verify:"जाँचें और प्रवेश करें", wrong:"गलत कोड — फिर कोशिश करें",
-        homeTag:"आपके प्रोजेक्ट", newBtn:"+ नया प्रोजेक्ट", contacts:"📇 Contacts",
-        team:"👥 टीम / जॉइन", out:"लॉग आउट",
-        newTitle:"नया प्रोजेक्ट", newTag:"श्रृंखला का पहला कदम",
-        pName:"प्रोजेक्ट का नाम", pType:"प्रोजेक्ट का प्रकार", create:"प्रोजेक्ट बनाएँ",
-        needName:"पहले प्रोजेक्ट का नाम डालें", needType:"प्रोजेक्ट का प्रकार चुनें",
-        created:"प्रोजेक्ट बन गया!",
-        types:[["फ़ीचर फ़िल्म","Sc 1, 2, 3…"],["वेब सीरीज़","Ep 1 – Sc 1…"],
-               ["डॉक्यूमेंट्री","Part 1, 2…"],["एड फ़िल्म","Sc 1…"],["शॉर्ट फ़िल्म","Sc 1…"]],
-        cTitle:"Contacts", cTag:"आपकी मास्टर फ़ोन बुक — हर प्रोजेक्ट में काम आएगी",
-        cName:"पूरा नाम", cPhone:"फ़ोन नंबर", cRole:"भूमिका (डायरेक्टर, एक्टर…)",
-        addC:"Contact जोड़ें", cNeed:"नाम और फ़ोन नंबर डालें", cAdded:"Contact जुड़ गया!",
-        noC:"अभी कोई contact नहीं — पहला जोड़ें",
-        tTitle:"टीम", tTag:"Join code बनाएँ या code से जुड़ें",
-        make:"कोड बनाएँ", join:"जॉइन",
-        joinP:"प्रोजेक्ट चुनें", makeBtn:"Join Code बनाएँ",
-        codeNote:"यह कोड साझा करें — साथी Join में डालेंगे",
-        mAdd:"जुड़े सदस्य यहाँ दिखेंगे", mNone:"अभी कोई सदस्य नहीं",
-        joinCodeL:"Join code", joinBtn:"प्रोजेक्ट से जुड़ें",
-        jOk:"जुड़ गए!", jBad:"गलत कोड" },
+    phone:"फ़ोन या ईमेल", next:"आगे बढ़ें", google:"Google से प्रवेश",
+    otpTag:"6 अंक का कोड डालें", verify:"जाँचें और प्रवेश करें", wrong:"गलत कोड — फिर कोशिश करें",
+    homeTag:"आपके प्रोजेक्ट", newBtn:"+ नया प्रोजेक्ट", contacts:"📇 Contacts",
+    team:"👥 टीम / जॉइन", out:"लॉग आउट",
+    newTitle:"नया प्रोजेक्ट", newTag:"श्रृंखला का पहला कदम",
+    pName:"प्रोजेक्ट का नाम", pType:"प्रोजेक्ट का प्रकार", create:"प्रोजेक्ट बनाएँ",
+    needName:"पहले प्रोजेक्ट का नाम डालें", needType:"प्रोजेक्ट का प्रकार चुनें",
+    created:"प्रोजेक्ट बन गया!",
+    types:[["फ़ीचर फ़िल्म","Sc 1, 2, 3…"],["वेब सीरीज़","Ep 1 – Sc 1…"],
+      ["डॉक्यूमेंट्री","Part 1, 2…"],["एड फ़िल्म","Sc 1…"],["शॉर्ट फ़िल्म","Sc 1…"]],
+    cTitle:"Contacts", cTag:"आपकी मास्टर फ़ोन बुक — हर प्रोजेक्ट में काम आएगी",
+    cName:"पूरा नाम", cPhone:"फ़ोन नंबर", cRole:"भूमिका (डायरेक्टर, एक्टर…)",
+    addC:"Contact जोड़ें", cNeed:"नाम और फ़ोन नंबर डालें", cAdded:"Contact जुड़ गया!",
+    noC:"अभी कोई contact नहीं — पहला जोड़ें",
+    tTitle:"टीम", tTag:"Join code बनाएँ या code से जुड़ें",
+    make:"कोड बनाएँ", join:"जॉइन", joinP:"प्रोजेक्ट चुनें",
+    makeBtn:"Join Code बनाएँ", codeNote:"यह कोड साझा करें — साथी Join में डालेंगे",
+    mNone:"अभी कोई सदस्य नहीं", joinCodeL:"Join code", joinBtn:"प्रोजेक्ट से जुड़ें",
+    jOk:"जुड़ गए!", jBad:"गलत कोड" },
   gu: { tag:"ફિલ્મ પ્રોડક્શન, એક સાંકળ — Script થી Budget સુધી",
-        phone:"ફોન નંબર કે ઈમેલ", next:"આગળ વધો", google:"Google થી પ્રવેશ",
-        otpTag:"6 આંકડા નો કોડ નાખો", verify:"ચકાસો અને પ્રવેશો", wrong:"ખોટો કોડ — ફરી પ્રયત્ન કરો",
-        homeTag:"તમારા પ્રોજેક્ટ", newBtn:"+ નવું પ્રોજેક્ટ", contacts:"📇 Contacts",
-        team:"👥 ટીમ / Join", out:"બહાર નીકળો",
-        newTitle:"નવું પ્રોજેક્ટ", newTag:"સાંકળ નું પહેલું પગલું",
-        pName:"પ્રોજેક્ટ નું નામ", pType:"પ્રોજેક્ટ નો પ્રકાર", create:"પ્રોજેક્ટ બનાવો",
-        needName:"પહેલા પ્રોજેક્ટ નું નામ નાખો", needType:"પ્રોજેક્ટ નો પ્રકાર પસંદ કરો",
-        created:"પ્રોજેક્ટ બની ગયો!",
-        types:[["ફિચર ફિલ્મ","Sc 1, 2, 3…"],["વેબ સિરીઝ","Ep 1 – Sc 1…"],
-               ["ડોક્યુમેન્ટ્રી","Part 1, 2…"],["એડ ફિલ્મ","Sc 1…"],["શોર્ટ ફિલ્મ","Sc 1…"]],
-        cTitle:"Contacts", cTag:"તમારી Master ફોન બુક — દરેક પ્રોજેક્ટ માં કામ આવશે",
-        cName:"પૂરું નામ", cPhone:"ફોન નંબર", cRole:"ભૂમિકા (ડિરેક્ટર, એક્ટર…)",
-        addC:"Contact ઉમેરો", cNeed:"નામ અને ફોન નંબર નાખો", cAdded:"Contact ઉમેરાયો!",
-        noC:"હજુ કોઈ contact નથી — પહેલો ઉમેરો",
-        tTitle:"ટીમ", tTag:"Join code બનાવો અથવા code થી જોડાઓ",
-        make:"કોડ બનાવો", join:"Join",
-        joinP:"પ્રોજેક્ટ પસંદ કરો", makeBtn:"Join Code બનાવો",
-        codeNote:"આ કોડ સાથીઓ ને આપો — એમણે Join માં નાખશે",
-        mAdd:"જોડાયેલા સભ્યો અહીં દેખાશે", mNone:"હજુ કોઈ સભ્ય નથી",
-        joinCodeL:"Join code", joinBtn:"પ્રોજેક્ટ સાથે જોડાઓ",
-        jOk:"જોડાઈ ગયા!", jBad:"ખોટો કોડ" }
+    phone:"ફોન નંબર કે ઈમેલ", next:"આગળ વધો", google:"Google થી પ્રવેશ",
+    otpTag:"6 આંકડા નો કોડ નાખો", verify:"ચકાસો અને પ્રવેશો", wrong:"ખોટો કોડ — ફરી પ્રયત્ન કરો",
+    homeTag:"તમારા પ્રોજેક્ટ", newBtn:"+ નવું પ્રોજેક્ટ", contacts:"📇 Contacts",
+    team:"👥 ટીમ / Join", out:"બહાર નીકળો",
+    newTitle:"નવું પ્રોજેક્ટ", newTag:"સાંકળ નું પહેલું પગલું",
+    pName:"પ્રોજેક્ટ નું નામ", pType:"પ્રોજેક્ટ નો પ્રકાર", create:"પ્રોજેક્ટ બનાવો",
+    needName:"પહેલા પ્રોજેક્ટ નું નામ નાખો", needType:"પ્રોજેક્ટ નો પ્રકાર પસંદ કરો",
+    created:"પ્રોજેક્ટ બની ગયો!",
+    types:[["ફિચર ફિલ્મ","Sc 1, 2, 3…"],["વેબ સિરીઝ","Ep 1 – Sc 1…"],
+      ["ડોક્યુમેન્ટ્રી","Part 1, 2…"],["એડ ફિલ્મ","Sc 1…"],["શોર્ટ ફિલ્મ","Sc 1…"]],
+    cTitle:"Contacts", cTag:"તમારી Master ફોન બુક — દરેક પ્રોજેક્ટ માં કામ આવશે",
+    cName:"પૂરું નામ", cPhone:"ફોન નંબર", cRole:"ભૂમિકા (ડિરેક્ટર, એક્ટર…)",
+    addC:"Contact ઉમેરો", cNeed:"નામ અને ફોન નંબર નાખો", cAdded:"Contact ઉમેરાયો!",
+    noC:"હજુ કોઈ contact નથી — પહેલો ઉમેરો",
+    tTitle:"ટીમ", tTag:"Join code બનાવો અથવા code થી જોડાઓ",
+    make:"કોડ બનાવો", join:"Join", joinP:"પ્રોજેક્ટ પસંદ કરો",
+    makeBtn:"Join Code બનાવો", codeNote:"આ કોડ સાથીઓ ને આપો — એમણે Join માં નાખશે",
+    mNone:"હજુ કોઈ સભ્ય નથી", joinCodeL:"Join code", joinBtn:"પ્રોજેક્ટ સાથે જોડાઓ",
+    jOk:"જોડાઈ ગયા!", jBad:"ખોટો કોડ" }
 };
-let lang = localStorage.getItem("cs_lang") || "gu";
-let pickedType = -1;
 
-/* ---------- મદદગાર ---------- */
 const $ = id => document.getElementById(id);
 const store = { get:(k,d)=>JSON.parse(localStorage.getItem(k)||d),
                 set:(k,v)=>localStorage.setItem(k,JSON.stringify(v)) };
+let lang = localStorage.getItem("cs_lang") || "gu";
+let pickedType = -1;
 
-/* ---------- OTP ખાનાં (6) ---------- */
+/* OTP ખાનાં (6) */
 (function(){
   const row = $("otpRow");
   for(let i=0;i<6;i++){
@@ -245,17 +223,19 @@ const store = { get:(k,d)=>JSON.parse(localStorage.getItem(k)||d),
       if(b.value&&i<5)row.querySelectorAll("input")[i+1].focus(); });
     b.addEventListener("keydown",e=>{ if(e.key==="Backspace"){
       if(b.value){b.value="";e.preventDefault();}
-      else if(i>0){const a=row.querySelectorAll("input");a[i-1].focus();a[i-1].value="";e.preventDefault();} }});
+      else if(i>0){const a=row.querySelectorAll("input");
+        a[i-1].focus();a[i-1].value="";e.preventDefault();} }});
     row.appendChild(b);
   }
 })();
 
-/* ---------- Type બટન (5) ---------- */
+/* Type બટન (5) */
 (function(){
   const box=$("types");
   T.gu.types.forEach((tp,i)=>{
     const d=document.createElement("div");
     d.className="type";
+    d.innerHTML=tp[0]+"<small></small>";
     d.onclick=()=>{ pickedType=i;
       box.querySelectorAll(".type").forEach(x=>x.classList.remove("on"));
       d.classList.add("on"); renderTypeHints(); };
@@ -265,19 +245,19 @@ const store = { get:(k,d)=>JSON.parse(localStorage.getItem(k)||d),
 function renderTypeHints(){
   const box=$("types");
   box.querySelectorAll(".type").forEach((d,i)=>{
-    d.querySelector("small").textContent = (i===pickedType)?T[lang].types[i][1]:"";
+    d.querySelector("small").textContent=(i===pickedType)?T[lang].types[i][1]:"";
   });
 }
 
-/* ---------- ભાષા / દેખાવ / સ્ક્રીન ---------- */
 function setLang(l,btn){
   lang=l; localStorage.setItem("cs_lang",l); const t=T[l];
   ("tag").textContent=t.tag;("tag").textContent=t.tag;("tag").textContent=t.tag;("otpTag").textContent=t.otpTag;
   ("lblPhone").textContent=t.phone;("lblPhone").textContent=t.phone;("lblPhone").textContent=t.phone;("btnNext").textContent=t.next;
   ("btnVerify").textContent=t.verify;("btnVerify").textContent=t.verify;("btnVerify").textContent=t.verify;("lblGoogle").textContent=t.google;
   ("homeTag").textContent=t.homeTag;("homeTag").textContent=t.homeTag;("homeTag").textContent=t.homeTag;("btnNew").textContent=t.newBtn;
-  ("btnContacts").textContent=t.contacts;("btnContacts").textContent=t.contacts;("btnContacts").textContent=t.contacts;("Team").textContent=t.team  $("btnOut").textContent=t.out;
-  $("lblTitle").textContent=t.newTitle;lblNewTag").textContent=t.newTag;
+  ("btnContacts").textContent=t.contacts;("btnContacts").textContent=t.contacts;("btnContacts").textContent=t.contacts;("btnTeam").textContent=t.team;
+  $("btnOut").textContent=t.out;
+  ("lblNewTitle").textContent=t.newTitle;("lblNewTitle").textContent=t.newTitle;("lblNewTitle").textContent=t.newTitle;("lblNewTag").textContent=t.newTag;
   ("lblPName").textContent=t.pName;("lblPName").textContent=t.pName;("lblPName").textContent=t.pName;("lblPType").textContent=t.pType;
   $("btnCreate").textContent=t.create;
   ("lblCTitle").textContent=t.cTitle;("lblCTitle").textContent=t.cTitle;("lblCTitle").textContent=t.cTitle;("lblCTag").textContent=t.cTag;
@@ -286,7 +266,7 @@ function setLang(l,btn){
   ("lblTTitle").textContent=t.tTitle;("lblTTitle").textContent=t.tTitle;("lblTTitle").textContent=t.tTitle;("lblTTag").textContent=t.tTag;
   ("tabMake").textContent=t.make;("tabMake").textContent=t.make;("tabMake").textContent=t.make;("tabJoin").textContent=t.join;
   ("lblJoinP").textContent=t.joinP;("lblJoinP").textContent=t.joinP;("lblJoinP").textContent=t.joinP;("btnMake").textContent=t.makeBtn;
-  ("codeNote").textContent=t.codeNote;("codeNote").textContent=t.codeNote;("codeNote").textContent=t.codeNote;("mAdd").textContent=t.mAdd;
+  $("codeNote").textContent=t.codeNote;
   ("lblJoinCode").textContent=t.joinCodeL;("lblJoinCode").textContent=t.joinCodeL;("lblJoinCode").textContent=t.joinCodeL;("btnJoin").textContent=t.joinBtn;
   $("types").querySelectorAll(".type").forEach((d,i)=>{
     d.innerHTML=t.types[i][0]+"<small></small>"; });
@@ -305,13 +285,14 @@ function show(id){
   if(id==="scrContacts") renderContacts();
 }
 
-/* ---------- 1.3: પ્રોજેક્ટ ---------- */
+/* પ્રોજેક્ટ */
 function renderList(){
-  const t=T[lang], ps=store.get("cs_projects","[]"), box=$("plist");
-  $("plistBox").style.display=ps.length?"block":"none"; box.innerHTML="";
-  ps.forEach((p,idx)=>{
+  const ps=store.get("cs_projects","[]"), box=$("plist");
+  box.innerHTML="";
+  ps.forEach(p=>{
     const d=document.createElement("div"); d.className="item";
-    d.innerHTML="<span>"+p.name+"</span><span class='badge'>"+T.gu.types[p.type][0]+"</span>";
+    d.innerHTML="<span>"+p.name+"</span><span class='badge'>"
+      +T[lang].types[p.type][0]+"</span>";
     box.appendChild(d);
   });
 }
@@ -329,7 +310,7 @@ function createProject(){
   setTimeout(()=>show("scrHome"),600);
 }
 
-/* ---------- 1.4: Contacts ---------- */
+/* Contacts */
 function renderContacts(){
   const t=T[lang], cs=store.get("cs_contacts","[]"), box=$("clist");
   box.innerHTML= cs.length?"":'<p class="empty">'+t.noC+'</p>';
@@ -352,7 +333,7 @@ function addContact(){
   msg.className="msg ok"; msg.textContent=t.cAdded; renderContacts();
 }
 
-/* ---------- 1.5: Team / Join ---------- */
+/* Team / Join */
 function teamTab(which){
   $("tabMake").classList.toggle("on",which==="make");
   $("tabJoin").classList.toggle("on",which==="join");
@@ -365,22 +346,22 @@ function renderJoinSel(){
   ps.forEach(p=>{ const o=document.createElement("option");
     o.textContent=p.name; o.value=p.name; sel.appendChild(o); });
 }
-function makeCode(){
-  const code=Math.random().toString(36).slice(2,8).toUpperCase();
-  $("joinCode").textContent=code;
-  $("codeBox").style.display="block";
-  const mem=store.get("cs_members",[]);
-  mem.push({proj:$("joinProj").value||"?", code:code, by:"owner"});
-  store.set("cs_members",mem); renderMembers();
-}
 function renderMembers(){
   const t=T[lang], mem=store.get("cs_members","[]"), box=$("mlist");
   box.innerHTML= mem.length?"":'<p class="empty">'+t.mNone+'</p>';
   mem.forEach(m=>{
     const d=document.createElement("div"); d.className="item";
-    d.innerHTML="<span><b>"+m.proj+"</b></span><span class='badge gray'>"+m.code+"</span>";
+    d.innerHTML="<span><b>"+m.proj+"</b></span><span class='badge g'>"+m.code+"</span>";
     box.appendChild(d);
   });
+}
+function makeCode(){
+  const code=Math.random().toString(36).slice(2,8).toUpperCase();
+  $("joinCode").textContent=code;
+  $("codeBox").style.display="block";
+  const mem=store.get("cs_members","[]");
+  mem.push({proj:$("joinProj").value||"?", code:code});
+  store.set("cs_members",mem); renderMembers();
 }
 function doJoin(){
   const t=T[lang], v=("joinInput").value.trim().toUpperCase(),msg=("joinInput").value.trim().toUpperCase(), msg=("joinInput").value.trim().toUpperCase(),msg=("jMsg");
@@ -390,7 +371,7 @@ function doJoin(){
   else { msg.className="msg err"; msg.textContent=t.jBad; }
 }
 
-/* ---------- Login / OTP ---------- */
+/* Login / OTP */
 const CODE="123456";
 function sendOtp(){
   if(!("phone").value.trim()){("phone").focus(); return; }
@@ -403,7 +384,6 @@ function verifyOtp(){
 }
 function logout(){ show("scrLogin"); }
 
-/* ---------- શરૂઆત ---------- */
 if(localStorage.getItem("cs_dark")==="1") document.body.classList.add("dark");
 $("phone").addEventListener("keydown",e=>{ if(e.key==="Enter") sendOtp(); });
 setLang(lang, document.querySelectorAll(".chip")[2]);
