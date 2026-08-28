@@ -298,7 +298,7 @@ function renderContacts(){
 const t=T[lang], cs=store.get("cs_contacts","[]"), box=$("clist");
 box.innerHTML= cs.length?"":'<p class="empty">'+t.noC+'</p>';
 cs.forEach((c,idx)=>{
-const d=document.createElement("div"); d.className="item";
+const d=document.createElement("div"); d.className="item"; 
 d.innerHTML="<span><b>"+c.name+"</b><br><small>"+c.phone+" • "+c.role+"</small></span>";
 const del=document.createElement("button"); del.className="del"; del.textContent="✕";
 del.onclick=()=>{ cs.splice(idx,1); store.set("cs_contacts",cs); renderContacts(); };
