@@ -282,7 +282,7 @@ box.appendChild(d);
 });
 }
 function createProject(){
-const t=T[lang], name=("pname").value.trim(),msg=("pname").value.trim(), msg=("pname").value.trim(),msg=("pMsg");
+const t=T[lang], name=document.getElementById("pname").value.trim(), msg=document.getElementById("pMsg");
 if(!name){msg.className="msg err";msg.textContent=t.needName;return;}
 if(pickedType<0){msg.className="msg err";msg.textContent=t.needType;return;}
 const ps=store.get("cs_projects","[]");
