@@ -306,7 +306,7 @@ d.appendChild(del); box.appendChild(d);
 });
 }
 function addContact(){
-const t=T[lang], name=("cname").value.trim(),phone=("cname").value.trim(), phone=("cname").value.trim(),phone=("cphone").value.trim(),
+const t=T[lang], name=document.getElementById("cname").value.trim(), phone=document.getElementById("cphone").value.trim(), role=document.getElementById("crole").value.trim(), msg=document.getElementById("cMsg");
 role=("crole").value.trim(),msg=("crole").value.trim(), msg=("crole").value.trim(),msg=("cMsg");
 if(!name||!phone){msg.className="msg err";msg.textContent=t.cNeed;return;}
 const cs=store.get("cs_contacts","[]");
