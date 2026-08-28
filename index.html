@@ -282,7 +282,7 @@ box.appendChild(d);
 });
 }
 function createProject(){
-const t=T[lang], name=document.getElementById("pname").value.trim(), msg=document.getElementById("pMsg");
+const t=T[lang], name=("pname").value.trim(),msg=("pname").value.trim(), msg=("pname").value.trim(),msg=("pMsg");
 if(!name){msg.className="msg err";msg.textContent=t.needName;return;}
 if(pickedType<0){msg.className="msg err";msg.textContent=t.needType;return;}
 const ps=store.get("cs_projects","[]");
@@ -298,7 +298,7 @@ function renderContacts(){
 const t=T[lang], cs=store.get("cs_contacts","[]"), box=$("clist");
 box.innerHTML= cs.length?"":'<p class="empty">'+t.noC+'</p>';
 cs.forEach((c,idx)=>{
-const d=document.createElement("div"); d.className="item"; 
+const d=document.createElement("div"); d.className="item";
 d.innerHTML="<span><b>"+c.name+"</b><br><small>"+c.phone+" • "+c.role+"</small></span>";
 const del=document.createElement("button"); del.className="del"; del.textContent="✕";
 del.onclick=()=>{ cs.splice(idx,1); store.set("cs_contacts",cs); renderContacts(); };
@@ -306,7 +306,7 @@ d.appendChild(del); box.appendChild(d);
 });
 }
 function addContact(){
-const t=T[lang], name=document.getElementById("cname").value.trim(), phone=document.getElementById("cphone").value.trim(), role=document.getElementById("crole").value.trim(), msg=document.getElementById("cMsg");
+const t=T[lang], name=("cname").value.trim(),phone=("cname").value.trim(), phone=("cname").value.trim(),phone=("cphone").value.trim(),
 role=("crole").value.trim(),msg=("crole").value.trim(), msg=("crole").value.trim(),msg=("cMsg");
 if(!name||!phone){msg.className="msg err";msg.textContent=t.cNeed;return;}
 const cs=store.get("cs_contacts","[]");
