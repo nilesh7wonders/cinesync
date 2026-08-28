@@ -45,7 +45,6 @@
     <button class="chip" onclick="toggleDark()">🌓</button>
   </div>
 
-  <!-- સ્ક્રીન 1: Login -->
   <div class="card screen on" id="scrLogin">
     <div class="logo">🎬</div>
     <h1>CineSync</h1>
@@ -58,19 +57,12 @@
     <button class="btn ghost" id="btnGoogle">G — <span id="lblGoogle"></span></button>
   </div>
 
-  <!-- સ્ક્રીન 2: OTP -->
   <div class="card screen" id="scrOtp">
     <button class="back" onclick="show('scrLogin')">←</button>
     <div class="logo">🔐</div>
     <h1>CineSync</h1>
     <p class="tag" id="otpTag"></p>
-    <div class="otp">
-      <input maxlength="1" inputmode="numeric" oninput="otpMove(this,0)" onkeydown="otpBack(event,this,0)">
-      <input maxlength="1" inputmode="numeric" oninput="otpMove(this,1)" onkeydown="otpBack(event,this,1)">
-      <input maxlength="1" inputmode="numeric" oninput="otpMove(this,2)" onkeydown="otpBack(event,this,2      <input maxlength="1" inputmode="numeric" oninput="otpMove(this,3)" onkeydown="otpBack(event,this,3)">
-      <input maxlength="1" inputmode="numeric" oninput="otpMove(this,4)" onkeydown="otpBack(event,this,4)">
-      <input maxlength="1" inputmode="numeric" oninput="otpMove(this,5)" onkeydown="otpBack(event,this,5)">
-    </div>
+    <div class="otp" id="otpRow"></div>
     <button class="btn" onclick="verifyOtp()" id="btnVerify"></button>
     <p class="msg" id="otpMsg"></p>
     <p class="msg" style="opacity:0.6" id="otpNote"></p>
@@ -79,25 +71,41 @@
 <script>
 const T = {
   en: { tag:"Film Production, One Chain — Script to Budget",
-        phone:"Phone or Email", next:"Continue",
-        google:"Sign in with Google",
+        phone:"Phone or Email", next:"Continue", google:"Sign in with Google",
         otpTag:"Enter the 6-digit code", verify:"Verify & Enter",
         wrong:"Wrong code — try again", ok:"Welcome to CineSync!",
         note:"SMS sending comes later (under construction)" },
   hi: { tag:"फिल्म प्रोडक्शन, एक श्रृंखला — Script से Budget तक",
-        phone:"फ़ोन या ईमेल", next:"आगे बढ़ें",
-        google:"Google से प्रवेश",
+        phone:"फ़ोन या ईमेल", next:"आगे बढ़ें", google:"Google से प्रवेश",
         otpTag:"6 अंक का कोड डालें", verify:"जाँचें और प्रवेश करें",
         wrong:"गलत कोड — फिर कोशिश करें", ok:"CineSync में आपका स्वागत है!",
         note:"SMS भेजना बाद में आएगा (काम चालू है)" },
   gu: { tag:"ફિલ્મ પ્રોડક્શન, એક સાંકળ — Script થી Budget સુધી",
-        phone:"ફોન નંબર કે ઈમેલ", next:"આગળ વધો",
-        google:"Google થી પ્રવેશ",
+        phone:"ફોન નંબર કે ઈમેલ", next:"આગળ વધો", google:"Google થી પ્રવેશ",
         otpTag:"6 આંકડા નો કોડ નાખો", verify:"ચકાસો અને પ્રવેશો",
         wrong:"ખોટો કોડ — ફરી પ્રયત્ન કરો", ok:"CineSync માં સ્વાગત!",
         note:"SMS મોકલવાનું પછી આવશે (કામ ચાલુ છે)" }
 };
 let lang = localStorage.getItem("cs_lang") || "gu";
+
+/* 6 ખાનાં — JavaScript થી બને એટલે લીટી બગડવાની કોઈ શક્યતા જ નથી */
+const otpRow = document.getElementById("otpRow");
+for(let i=0; i<6; i++){
+  const b = document.createElement("input");
+  b.maxLength = 1;
+  b.inputMode = "numeric";
+  b.autocomplete = "one-time-code";
+  b.addEventListener("input", ()=>{ if(b.value.length>1){ b.value = b.value.slice(0,1); }
+    if(b.value && i<5) boxes()[i+1].focus(); });
+  b.addEventListener("keydown", e=>{
+    if(e.key==="Backspace"){
+      if(b.value){ b.value=""; e.preventDefault(); }
+      else if(i>0){ boxes()[i-1].focus(); boxes()[i-1].value=""; e.preventDefault(); }
+    }
+  });
+  otpRow.appendChild(b);
+}
+function boxes(){ return otpRow.querySelectorAll("input"); }
 
 function setLang(l, btn){
   lang = l; localStorage.setItem("cs_lang", l);
@@ -114,7 +122,7 @@ function setLang(l, btn){
 }
 function toggleDark(){
   document.body.classList.toggle("dark");
-  localStorage.setItem("cs_dark", document.body.classList.contains("dark") ? "1" : "0");
+  localStorage.setItem("cs_dark", document.body.classList.contains("dark")?"1":"0");
 }
 function show(id){
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("on"));
@@ -123,30 +131,17 @@ function show(id){
 function sendOtp(){
   const v = document.getElementById("phone").value.trim();
   if(!v){ document.getElementById("phone").focus(); return; }
-  show("scrOtp");
-  document.querySelectorAll(".otp input")[0].focus();
+  show("scrOtp"); boxes()[0].focus();
 }
 const CODE = "123456";
-const boxes = () => document.querySelectorAll(".otp input");
-function otpMove(el, i){
-  if(el.value && i < 5) boxes()[i+1].focus();
-}
-function otpBack(e, el, i){
-  if(e.key === "Backspace"){
-    if(el.value){ el.value = ""; e.preventDefault(); }        // આંકડો હોય તો પહેલા એ ડીલેટ
-    else if(i > 0){                                            // ખાલી હોય તો પાછળના ખાનાં માં
-      boxes()[i-1].focus(); boxes()[i-1].value = ""; e.preventDefault();
-    }
-  }
-}
 function verifyOtp(){
   const code = [...boxes()].map(i=>i.value).join("");
   const msg = document.getElementById("otpMsg");
   if(code === CODE){
-    msg.className = "msg ok"; msg.textContent = T[lang].ok;
-    setTimeout(()=>{ alert(T[lang].ok); }, 400);
+    msg.className="msg ok"; msg.textContent=T[lang].ok;
+    setTimeout(()=>{ alert(T[lang].ok); },400);
   } else {
-    msg.className = "msg err"; msg.textContent = T[lang].wrong;
+    msg.className="msg err"; msg.textContent=T[lang].wrong;
   }
 }
 if(localStorage.getItem("cs_dark")==="1") document.body.classList.add("dark");
