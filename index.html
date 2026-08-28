@@ -199,13 +199,13 @@ makeBtn:"Join Code બનાવો", codeNote:"આ કોડ સાથીઓ ન
 mNone:"હજુ કોઈ સભ્ય નથી", joinCodeL:"Join code", joinBtn:"જોડાઓ",
 jOk:"જોડાઈ ગયા!", jBad:"ખોટો કોડ" }
 };
-const $ = id => document.getElementById(id);
+function E(id){ return document.getElementById(id); }
 const store = { get:(k,d)=>JSON.parse(localStorage.getItem(k)||d),
 set:(k,v)=>localStorage.setItem(k,JSON.stringify(v)) };
 let lang = localStorage.getItem("cs_lang") || "gu";
 let pickedType = -1;
 (function(){
-const row = $("otpRow");
+const row = E("otpRow");
 for(let i=0;i<6;i++){
 const b=document.createElement("input");
 b.maxLength=1; b.inputMode="numeric"; b.autocomplete="one-time-code";
@@ -219,7 +219,7 @@ row.appendChild(b);
 }
 })();
 (function(){
-const box=$("types");
+const box=E("types");
 T.gu.types.forEach((tp,i)=>{
 const d=document.createElement("div");
 d.className="type";
@@ -231,31 +231,45 @@ box.appendChild(d);
 });
 })();
 function renderTypeHints(){
-const box=$("types");
+const box=E("types");
 box.querySelectorAll(".type").forEach((d,i)=>{
 d.querySelector("small").textContent=(i===pickedType)?T[lang].types[i][1]:"";
 });
 }
 function setLang(l,btn){
 lang=l; localStorage.setItem("cs_lang",l); const t=T[l];
-("tag").textContent=t.tag;("tag").textContent=t.tag;("tag").textContent=t.tag;("otpTag").textContent=t.otpTag;
-("lblPhone").textContent=t.phone;("lblPhone").textContent=t.phone;("lblPhone").textContent=t.phone;("btnNext").textContent=t.next;
-("btnVerify").textContent=t.verify;("btnVerify").textContent=t.verify;("btnVerify").textContent=t.verify;("lblGoogle").textContent=t.google;
-("homeTag").textContent=t.homeTag;("homeTag").textContent=t.homeTag;("homeTag").textContent=t.homeTag;("btnNew").textContent=t.newBtn;
-("btnContacts").textContent=t.contacts;("btnContacts").textContent=t.contacts;("btnContacts").textContent=t.contacts;("btnTeam").textContent=t.team;
-$("btnOut").textContent=t.out;
-("lblNewTitle").textContent=t.newTitle;("lblNewTitle").textContent=t.newTitle;("lblNewTitle").textContent=t.newTitle;("lblNewTag").textContent=t.newTag;
-("lblPName").textContent=t.pName;("lblPName").textContent=t.pName;("lblPName").textContent=t.pName;("lblPType").textContent=t.pType;
-$("btnCreate").textContent=t.create;
-("lblCTitle").textContent=t.cTitle;("lblCTitle").textContent=t.cTitle;("lblCTitle").textContent=t.cTitle;("lblCTag").textContent=t.cTag;
-("lblCName").textContent=t.cName;("lblCName").textContent=t.cName;("lblCName").textContent=t.cName;("lblCPhone").textContent=t.cPhone;
-("lblCRole").textContent=t.cRole;("lblCRole").textContent=t.cRole;("lblCRole").textContent=t.cRole;("btnAddC").textContent=t.addC;
-("lblTTitle").textContent=t.tTitle;("lblTTitle").textContent=t.tTitle;("lblTTitle").textContent=t.tTitle;("lblTTag").textContent=t.tTag;
-("tabMake").textContent=t.make;("tabMake").textContent=t.make;("tabMake").textContent=t.make;("tabJoin").textContent=t.join;
-("lblJoinP").textContent=t.joinP;("lblJoinP").textContent=t.joinP;("lblJoinP").textContent=t.joinP;("btnMake").textContent=t.makeBtn;
-$("codeNote").textContent=t.codeNote;
-("lblJoinCode").textContent=t.joinCodeL;("lblJoinCode").textContent=t.joinCodeL;("lblJoinCode").textContent=t.joinCodeL;("btnJoin").textContent=t.joinBtn;
-$("types").querySelectorAll(".type").forEach((d,i)=>{
+E("tag").textContent=t.tag;
+E("otpTag").textContent=t.otpTag;
+E("lblPhone").textContent=t.phone;
+E("btnNext").textContent=t.next;
+E("btnVerify").textContent=t.verify;
+E("lblGoogle").textContent=t.google;
+E("homeTag").textContent=t.homeTag;
+E("btnNew").textContent=t.newBtn;
+E("btnContacts").textContent=t.contacts;
+E("btnTeam").textContent=t.team;
+E("btnOut").textContent=t.out;
+E("lblNewTitle").textContent=t.newTitle;
+E("lblNewTag").textContent=t.newTag;
+E("lblPName").textContent=t.pName;
+E("lblPType").textContent=t.pType;
+E("btnCreate").textContent=t.create;
+E("lblCTitle").textContent=t.cTitle;
+E("lblCTag").textContent=t.cTag;
+E("lblCName").textContent=t.cName;
+E("lblCPhone").textContent=t.cPhone;
+E("lblCRole").textContent=t.cRole;
+E("btnAddC").textContent=t.addC;
+E("lblTTitle").textContent=t.tTitle;
+E("lblTTag").textContent=t.tTag;
+E("tabMake").textContent=t.make;
+E("tabJoin").textContent=t.join;
+E("lblJoinP").textContent=t.joinP;
+E("btnMake").textContent=t.makeBtn;
+E("codeNote").textContent=t.codeNote;
+E("lblJoinCode").textContent=t.joinCodeL;
+E("btnJoin").textContent=t.joinBtn;
+E("types").querySelectorAll(".type").forEach((d,i)=>{
 d.innerHTML=t.types[i][0]+"<small></small>"; });
 renderTypeHints(); renderList(); renderContacts(); renderJoinSel(); renderMembers();
 document.querySelectorAll(".chip").forEach(c=>c.classList.remove("on"));
@@ -267,12 +281,12 @@ localStorage.setItem("cs_dark",document.body.classList.contains("dark")?"1":"0")
 }
 function show(id){
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("on"));
-$(id).classList.add("on");
+E(id).classList.add("on");
 if(id==="scrHome"){ renderList(); renderJoinSel(); }
 if(id==="scrContacts") renderContacts();
 }
 function renderList(){
-const ps=store.get("cs_projects","[]"), box=$("plist");
+const ps=store.get("cs_projects","[]"), box=E("plist");
 box.innerHTML="";
 ps.forEach(p=>{
 const d=document.createElement("div"); d.className="item";
@@ -282,20 +296,20 @@ box.appendChild(d);
 });
 }
 function createProject(){
-const t=T[lang], name=document.getElementById("pname").value.trim(), msg=document.getElementById("pMsg");
+const t=T[lang], name=E("pname").value.trim(), msg=E("pMsg");
 if(!name){msg.className="msg err";msg.textContent=t.needName;return;}
 if(pickedType<0){msg.className="msg err";msg.textContent=t.needType;return;}
 const ps=store.get("cs_projects","[]");
 ps.push({name:name,type:pickedType});
 store.set("cs_projects",ps);
-$("pname").value=""; pickedType=-1;
-$("types").querySelectorAll(".type").forEach(x=>x.classList.remove("on"));
+E("pname").value=""; pickedType=-1;
+E("types").querySelectorAll(".type").forEach(x=>x.classList.remove("on"));
 renderTypeHints();
 msg.className="msg ok"; msg.textContent=t.created;
 setTimeout(()=>show("scrHome"),600);
 }
 function renderContacts(){
-const t=T[lang], cs=store.get("cs_contacts","[]"), box=$("clist");
+const t=T[lang], cs=store.get("cs_contacts","[]"), box=E("clist");
 box.innerHTML= cs.length?"":'<p class="empty">'+t.noC+'</p>';
 cs.forEach((c,idx)=>{
 const d=document.createElement("div"); d.className="item";
@@ -306,29 +320,31 @@ d.appendChild(del); box.appendChild(d);
 });
 }
 function addContact(){
-const t=T[lang], name=document.getElementById("cname").value.trim(), phone=document.getElementById("cphone").value.trim(), role=document.getElementById("crole").value.trim(), msg=document.getElementById("cMsg");
-role=("crole").value.trim(),msg=("crole").value.trim(), msg=("crole").value.trim(),msg=("cMsg");
+const t=T[lang], name=E("cname").value.trim(), phone=E("cphone").value.trim(),
+role=E("crole").value.trim(), msg=E("cMsg");
 if(!name||!phone){msg.className="msg err";msg.textContent=t.cNeed;return;}
 const cs=store.get("cs_contacts","[]");
 cs.push({name:name,phone:phone,role:role||"—"});
 store.set("cs_contacts",cs);
-("cname").value="";("cname").value="";("cname").value="";("cphone").value="";$("crole").value="";
+E("cname").value="";
+E("cphone").value="";
+E("crole").value="";
 msg.className="msg ok"; msg.textContent=t.cAdded; renderContacts();
 }
 function teamTab(which){
-$("tabMake").classList.toggle("on",which==="make");
-$("tabJoin").classList.toggle("on",which==="join");
-$("paneMake").style.display=which==="make"?"block":"none";
-$("paneJoin").style.display=which==="join"?"block":"none";
+E("tabMake").classList.toggle("on",which==="make");
+E("tabJoin").classList.toggle("on",which==="join");
+E("paneMake").style.display=which==="make"?"block":"none";
+E("paneJoin").style.display=which==="join"?"block":"none";
 }
 function renderJoinSel(){
-const ps=store.get("cs_projects","[]"), sel=$("joinProj");
+const ps=store.get("cs_projects","[]"), sel=E("joinProj");
 sel.innerHTML="";
 ps.forEach(p=>{ const o=document.createElement("option");
 o.textContent=p.name; o.value=p.name; sel.appendChild(o); });
 }
 function renderMembers(){
-const t=T[lang], mem=store.get("cs_members","[]"), box=$("mlist");
+const t=T[lang], mem=store.get("cs_members","[]"), box=E("mlist");
 box.innerHTML= mem.length?"":'<p class="empty">'+t.mNone+'</p>';
 mem.forEach(m=>{
 const d=document.createElement("div"); d.className="item";
@@ -338,14 +354,14 @@ box.appendChild(d);
 }
 function makeCode(){
 const code=Math.random().toString(36).slice(2,8).toUpperCase();
-$("joinCode").textContent=code;
-$("codeBox").style.display="block";
+E("joinCode").textContent=code;
+E("codeBox").style.display="block";
 const mem=store.get("cs_members","[]");
-mem.push({proj:$("joinProj").value||"?", code:code});
+mem.push({proj:E("joinProj").value||"?", code:code});
 store.set("cs_members",mem); renderMembers();
 }
 function doJoin(){
-const t=T[lang], v=("joinInput").value.trim().toUpperCase(),msg=("joinInput").value.trim().toUpperCase(), msg=("joinInput").value.trim().toUpperCase(),msg=("jMsg");
+const t=T[lang], v=E("joinInput").value.trim().toUpperCase(), msg=E("jMsg");
 const mem=store.get("cs_members","[]");
 const found=mem.find(m=>m.code===v);
 if(found){ msg.className="msg ok"; msg.textContent=t.jOk+" — "+found.proj; }
@@ -353,17 +369,17 @@ else { msg.className="msg err"; msg.textContent=t.jBad; }
 }
 const CODE="123456";
 function sendOtp(){
-if(!("phone").value.trim()){("phone").focus(); return; }
-show("scrOtp"); $("otpRow").querySelectorAll("input")[0].focus();
+if(!E("phone").value.trim()){ E("phone").focus(); return; }
+show("scrOtp"); E("otpRow").querySelectorAll("input")[0].focus();
 }
 function verifyOtp(){
-const code=[...$("otpRow").querySelectorAll("input")].map(i=>i.value).join("");
+const code=[...E("otpRow").querySelectorAll("input")].map(i=>i.value).join("");
 if(code===CODE) show("scrHome");
-else { ("otpMsg").className="msgerr";("otpMsg").className="msg err";("otpMsg").className="msgerr";("otpMsg").textContent=T[lang].wrong; }
+else { E("otpMsg").className="msg err"; E("otpMsg").textContent=T[lang].wrong; }
 }
 function logout(){ show("scrLogin"); }
 if(localStorage.getItem("cs_dark")==="1") document.body.classList.add("dark");
-$("phone").addEventListener("keydown",e=>{ if(e.key==="Enter") sendOtp(); });
+E("phone").addEventListener("keydown",e=>{ if(e.key==="Enter") sendOtp(); });
 setLang(lang, document.querySelectorAll(".chip")[2]);
 </script>
 </body>
