@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CineSync</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:sans-serif; }
+  body { min-height:100vh; display:flex; align-items:center; justify-content:center;
+         background:#f4f1ea; color:#222; transition:0.3s; }
+  body.dark { background:#141414; color:#eee; }
+  .card { width:100%; max-width:380px; padding:32px 24px; text-align:center; }
+  .logo { font-size:40px; }
+  h1 { font-size:28px; margin:8px 0 4px; letter-spacing:1px; }
+  .tag { font-size:14px; opacity:0.7; margin-bottom:28px; }
+  .field { text-align:left; margin-bottom:16px; }
+  .field label { font-size:14px; display:block; margin-bottom:6px; }
+  input { width:100%; padding:14px; font-size:16px; border:1px solid #bbb;
+          border-radius:10px; background:#fff; color:#222; }
+  body.dark input { background:#222; color:#eee; border-color:#555; }
+  .btn { width:100%; padding:14px; font-size:17px; border:none; border-radius:10px;
+         background:#c0392b; color:#fff; font-weight:bold; cursor:pointer; margin-top:8px; }
+  .btn.ghost { background:transparent; color:inherit; border:1px solid #999; margin-top:12px; }
+  .top { position:fixed; top:14px; right:14px; display:flex; gap:8px; }
+  .chip { padding:6px 10px; border-radius:20px; border:1px solid #999;
+          font-size:13px; cursor:pointer; background:transparent; color:inherit; }
+  .chip.on { background:#c0392b; color:#fff; border-color:#c0392b; }
+  .next { margin-top:22px; font-size:13px; opacity:0.6; }
+</style>
+</head>
+<body>
+  <div class="top">
+    <button class="chip" onclick="setLang('en')">English</button>
+    <button class="chip" onclick="setLang('hi')">हिन्दी</button>
+    <button class="chip" onclick="setLang('gu')">ગુજરાતી</button>
+    <button class="chip" onclick="toggleDark()">🌓</button>
+  </div>
+
+  <div class="card">
+    <div class="logo">🎬</div>
+    <h1>CineSync</h1>
+    <p class="tag" id="tag"></p>
+
+    <div class="field">
+      <label id="lblPhone"></label>
+      <input type="text" id="phone" placeholder="+91 ...">
+    </div>
+
+    <button class="btn" onclick="goNext()" id="btnNext"></button>
+
+    <button class="btn ghost" id="btnGoogle">G — <span id="lblGoogle"></span></button>
+
+    <p class="next" id="nextNote"></p>
+  </div>
+
+<script>
+const T = {
+  en: { tag:"Film Production, One Chain — Script to Budget",
+        phone:"Phone or Email", next:"Continue",
+        google:"Sign in with Google",
+        note:"OTP verification comes next (under construction)" },
+  hi: { tag:"फिल्म प्रोडक्शन, एक श्रृंखला — Script से Budget तक",
+        phone:"फ़ोन या ईमेल", next:"आगे बढ़ें",
+        google:"Google से प्रवेश",
+        note:"आगे OTP आएगा (काम चालू है)" },
+  gu: { tag:"ફિલ્મ પ્રોડક્શન, એક સાંકળ — Script થી Budget સુધી",
+        phone:"ફોન નંબર કે ઈમેલ", next:"આગળ વધો",
+        google:"Google થી પ્રવેશ",
+        note:"આગળ OTP આવશે (કામ ચાલુ છે)" }
+};
+let lang = localStorage.getItem("cs_lang") || "gu";
+
+function setLang(l){
+  lang = l; localStorage.setItem("cs_lang", l);
+  const t = T[l];
+  document.getElementById("tag").textContent = t.tag;
+  document.getElementById("lblPhone").textContent = t.phone;
+  document.getElementById("btnNext").textContent = t.next;
+  document.getElementById("lblGoogle").textContent = t.google;
+  document.getElementById("nextNote").textContent = t.note;
+  document.documentElement.lang = (l==="gu") ? "gu" : (l==="hi" ? "hi" : "en");
+  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("on"));
+  event.target.classList.add("on");
+}
+function toggleDark(){
+  document.body.classList.toggle("dark");
+  localStorage.setItem("cs_dark", document.body.classList.contains("dark") ? "1" : "0");
+}
+function goNext(){
+  const v = document.getElementById("phone").value.trim();
+  if(!v){ alert(T[lang].phone + " ✓"); return; }
+  alert(T[lang].note);  // 1.2 (OTP) માં બદલાશે
+}
+if(localStorage.getItem("cs_dark")==="1") document.body.classList.add("dark");
+document.getElementById("phone").addEventListener("keydown", e=>{ if(e.key==="Enter") goNext(); });
+setLang(lang);
+</script>
+</body>
+</html>
