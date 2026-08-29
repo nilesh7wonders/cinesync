@@ -4,68 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CineSync</title>
-<style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:sans-serif; }
-body { min-height:100vh; display:flex; align-items:center; justify-content:center;
-  background:#f4f1ea; color:#222; }
-body.dark { background:#141414; color:#eee; }
-.card { width:100%; max-width:420px; padding:32px 24px; }
-.c { text-align:center; }
-.logo { font-size:40px; }
-h1 { font-size:26px; margin:8px 0 4px; }
-.tag { font-size:14px; opacity:0.7; margin-bottom:24px; }
-.field { margin-bottom:16px; }
-.field label { font-size:14px; display:block; margin-bottom:6px; }
-input, select { width:100%; padding:14px; font-size:16px; border:1px solid #bbb;
-  border-radius:10px; background:#fff; color:#222; }
-body.dark input, body.dark select { background:#222; color:#eee; border-color:#555; }
-.btn { width:100%; padding:14px; font-size:17px; border:none; border-radius:10px;
-  background:#c0392b; color:#fff; font-weight:bold; cursor:pointer; margin-top:8px; }
-.btn.ghost { background:transparent; color:inherit; border:1px solid #999; margin-top:12px; }
-.btnrow { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
-.btnrow .btn { margin-top:0; }
-.top { position:fixed; top:14px; right:14px; display:flex; gap:8px; }
-.chip { padding:6px 10px; border-radius:20px; border:1px solid #999; font-size:13px;
-  cursor:pointer; background:transparent; color:inherit; }
-.chip.on { background:#c0392b; color:#fff; border-color:#c0392b; }
-.screen { display:none; } .screen.on { display:block; }
-.back { float:left; font-size:22px; cursor:pointer; background:none; border:none;
-  color:inherit; margin-bottom:12px; }
-.otp { display:flex; gap:8px; justify-content:center; margin:18px 0; }
-.otp input { width:44px; height:54px; text-align:center; font-size:22px;
-  font-weight:bold; padding:0; }
-.msg { font-size:13px; margin-top:12px; min-height:18px; }
-.msg.err { color:#c0392b; } .msg.ok { color:#27ae60; }
-.note { font-size:12px; opacity:0.65; margin-top:10px; }
-.types { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:8px 0 4px; }
-.type { padding:14px 8px; border:2px solid #bbb; border-radius:12px; cursor:pointer;
-  font-size:15px; font-weight:bold; text-align:center; }
-body.dark .type { border-color:#555; }
-.type.on { border-color:#c0392b; background:rgba(192,57,43,0.1); }
-.type small { display:block; font-weight:normal; opacity:0.6; font-size:11px; margin-top:4px; }
-.item { padding:12px 14px; border:1px solid #bbb; border-radius:10px; margin-bottom:8px;
-  display:flex; justify-content:space-between; align-items:center; font-size:15px; gap:8px; }
-body.dark .item { border-color:#555; }
-.badge { font-size:11px; padding:3px 8px; border-radius:10px; background:#c0392b;
-  color:#fff; white-space:nowrap; }
-.badge.g { background:#888; }
-.del { background:none; border:none; color:#c0392b; font-size:18px; cursor:pointer; }
-.code { font-size:26px; font-weight:bold; letter-spacing:4px; text-align:center;
-  padding:14px; border:2px dashed #c0392b; border-radius:12px; margin:14px 0; color:#c0392b; }
-.empty { font-size:13px; opacity:0.6; text-align:center; padding:12px; }
-.tabs { display:flex; gap:8px; margin-bottom:16px; }
-.tab { flex:1; padding:10px; text-align:center; font-size:14px; font-weight:bold;
-  border:1px solid #999; border-radius:10px; cursor:pointer; }
-.tab.on { background:#c0392b; color:#fff; border-color:#c0392b; }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="top">
-  <button class="chip" onclick="setLang('en',this)">English</button>
-  <button class="chip" onclick="setLang('hi',this)">हिन्दी</button>
-  <button class="chip" onclick="setLang('gu',this)">ગુજરાતી</button>
+  <button class="chip" id="ch-en" onclick="setLang('en')">English</button>
+  <button class="chip" id="ch-hi" onclick="setLang('hi')">हिन्दी</button>
+  <button class="chip" id="ch-gu" onclick="setLang('gu')">ગુજરાતી</button>
   <button class="chip" onclick="toggleDark()">🌓</button>
 </div>
+
 <div class="card c screen on" id="scrLogin">
   <div class="logo">🎬</div>
   <h1>CineSync</h1>
@@ -73,8 +21,8 @@ body.dark .item { border-color:#555; }
   <div class="field"><label id="lblPhone"></label>
     <input type="text" id="phone" placeholder="+91 ..."></div>
   <button class="btn" onclick="sendOtp()" id="btnNext"></button>
-  <button class="btn ghost" id="lblGoogle"></button>
 </div>
+
 <div class="card c screen" id="scrOtp">
   <button class="back" onclick="show('scrLogin')">←</button>
   <div class="logo">🔐</div>
@@ -82,20 +30,19 @@ body.dark .item { border-color:#555; }
   <p class="tag" id="otpTag"></p>
   <div class="otp" id="otpRow"></div>
   <button class="btn" onclick="verifyOtp()" id="btnVerify"></button>
-  <p class="msg" id="otpMsg"></p>
+  <p class="msg c" id="otpMsg"></p>
 </div>
+
 <div class="card c screen" id="scrHome">
   <div class="logo">🎬</div>
   <h1>CineSync</h1>
   <p class="tag" id="homeTag"></p>
   <div id="plist" style="text-align:left"></div>
   <button class="btn" onclick="show('scrNew')" id="btnNew"></button>
-  <div class="btnrow">
-    <button class="btn ghost" onclick="show('scrContacts')" id="btnContacts"></button>
-    <button class="btn ghost" onclick="show('scrTeam')" id="btnTeam"></button>
-  </div>
+  <button class="btn ghost" onclick="show('scrContacts')" id="btnContacts"></button>
   <button class="btn ghost" onclick="doLogout()" id="btnOut"></button>
 </div>
+
 <div class="card screen" id="scrNew">
   <button class="back" onclick="show('scrHome')">←</button>
   <div class="c"><div class="logo">🎬</div>
@@ -105,323 +52,51 @@ body.dark .item { border-color:#555; }
   <button class="btn" onclick="createProject()" id="btnCreate"></button>
   <p class="msg" id="pMsg"></p>
 </div>
+
 <div class="card screen" id="scrContacts">
   <button class="back" onclick="show('scrHome')">←</button>
   <div class="c"><div class="logo">📇</div>
     <h1 id="lblCTitle"></h1><p class="tag" id="lblCTag"></p></div>
   <div class="field"><label id="lblCName"></label><input type="text" id="cname"></div>
   <div class="field"><label id="lblCPhone"></label><input type="text" id="cphone" placeholder="+91 ..."></div>
-  <div class="field"><label id="lblCRole"></label><input type="text" id="crole"></div>
-  <div class="field"><label id="lblCProj"></label><select id="cproj"></select></div>
+  <div class="field"><label id="lblCJob"></label><input type="text" id="cjob"></div>
   <button class="btn" onclick="addContact()" id="btnAddC"></button>
   <p class="msg" id="cMsg"></p>
   <div id="clist" style="margin-top:16px"></div>
 </div>
-<div class="card screen" id="scrTeam">
+
+<div class="card screen" id="scrProj">
   <button class="back" onclick="show('scrHome')">←</button>
-  <div class="c"><div class="logo">👥</div>
-    <h1 id="lblTTitle"></h1><p class="tag" id="lblTTag"></p></div>
+  <div class="c"><div class="logo">🎬</div>
+    <h1 id="projName"></h1><p class="tag" id="projType"></p></div>
   <div class="tabs">
-    <div class="tab on" id="tabMake" onclick="teamTab('make')"></div>
-    <div class="tab" id="tabJoin" onclick="teamTab('join')"></div>
+    <div class="tab on" id="tabCast" onclick="projTab('cast')"></div>
+    <div class="tab" id="tabScript" onclick="projTab('script')"></div>
+    <div class="tab" id="tabSched" onclick="projTab('sched')"></div>
+    <div class="tab" id="tabBud" onclick="projTab('bud')"></div>
   </div>
-  <div id="paneMake">
-    <div class="field"><label id="lblJoinP"></label><select id="joinProj"></select></div>
-    <button class="btn" onclick="makeCode()" id="btnMake"></button>
-    <div id="codeBox" style="display:none">
-      <div class="code" id="joinCode"></div>
-      <p class="msg ok c" id="codeNote"></p>
-    </div>
-    <div id="mlist" style="margin-top:16px"></div>
-    <p class="note c" id="teamNote"></p>
+  <div id="paneCast">
+    <button class="btn" onclick="show('scrPick')" id="btnAddCast"></button>
+    <div id="castList" style="margin-top:14px"></div>
   </div>
-  <div id="paneJoin" style="display:none">
-    <div class="field"><label id="lblJoinCode"></label>
-      <input type="text" id="joinInput" placeholder="XXXXXX"
-        style="letter-spacing:4px; text-transform:uppercase"></div>
-    <button class="btn" onclick="doJoin()" id="btnJoin"></button>
-    <p class="msg" id="jMsg"></p>
+  <div id="paneScript" style="display:none">
+    <p class="hint c" id="hintScript"></p>
+  </div>
+  <div id="paneSched" style="display:none">
+    <p class="hint c" id="hintSched"></p>
+  </div>
+  <div id="paneBud" style="display:none">
+    <p class="hint c" id="hintBud"></p>
   </div>
 </div>
-<script>
-const T = {
-en: { tag:"Film Production, One Chain — Script to Budget",
-phone:"Phone or Email", next:"Continue", google:"Sign in with Google",
-otpTag:"Enter the 6-digit code (demo: 123456)", verify:"Verify & Enter", wrong:"Wrong code — try again",
-homeTag:"Your Projects", newBtn:"+ New Project", contacts:"Contacts",
-team:"Team / Join", out:"Log out",
-newTitle:"New Project", newTag:"Step 1 of the chain",
-pName:"Project name", pType:"Project type", create:"Create Project",
-needName:"Enter project name first", needType:"Select a project type",
-created:"Project created!",
-types:[["Feature Film","Sc 1, 2, 3…"],["Web Series","Ep 1 – Sc 1…"],
-["Documentary","Part 1, 2…"],["Ad Film","Sc 1…"],["Short Film","Sc 1…"]],
-cTitle:"Contacts", cTag:"Your master phone book",
-cName:"Full name", cPhone:"Phone number", cRole:"Role", cProj:"Project (optional)",
-addC:"Add Contact", cNeed:"Enter name and phone", cAdded:"Contact added!",
-noC:"No contacts yet", noProj:"— No project —",
-tTitle:"Team", tTag:"Make a join code or join a project",
-make:"Make Code", join:"Join", joinP:"Choose project",
-makeBtn:"Generate Join Code", codeNote:"Share this code with teammates",
-mNone:"No members yet", joinCodeL:"Join code", joinBtn:"Join Project",
-jOk:"Joined!", jBad:"Wrong code",
-teamNote:"Note: codes work only on this device for now. Multi-device team sync comes with cloud setup.",
-tRemoved:"Removed" },
-hi: { tag:"फिल्म प्रोडक्शन, क श्रृंखला — Script से Budget तक",
-phone:"फ़ोन या ईमेल", next:"आगे बढ़ें", google:"Google से प्रवेश",
-otpTag:"6 अंक का कोड डालें (डेमो: 123456)", verify:"जाँचें और प्रवेश करें", wrong:"गलत कोड — फिर कोशिश करें",
-homeTag:"आपके प्रोजेक्ट", newBtn:"+ नया प्रोजेक्ट", contacts:"Contacts",
-team:"टीम / जॉइन", out:"लॉग आउट",
-newTitle:"नया प्रोजेक्ट", newTag:"श्रृंखला का पहला कदम",
-pName:"प्रोजेक्ट का नाम", pType:"प्रोजेक्ट का प्रकार", create:"प्रोजेक्ट बनाएँ",
-needName:"पहले नाम डालें", needType:"प्रकार चुनें",
-created:"प्रोजेक्ट बन गया!",
-types:[["फ़ीचर फ़िल्म","Sc 1, 2, 3…"],["वेब सीरीज़","Ep 1 – Sc 1…"],
-["डॉक्यूमेंट्री","Part 1, 2…"],["एड फ़िल्म","Sc 1…"],["शॉर्ट फ़िल्म","Sc 1…"]],
-cTitle:"Contacts", cTag:"आपकी मास्टर फ़ोन बुक",
-cName:"पूरा नाम", cPhone:"फ़ोन नंबर", cRole:"भूमिका", cProj:"प्रोजेक्ट (वैकल्पिक)",
-addC:"Contact जोड़ें", cNeed:"नाम और फ़ोन डालें", cAdded:"जुड़ गया!",
-noC:"अभी कोई contact नहीं", noProj:"— कोई प्रोजेक्ट नहीं —",
-tTitle:"टीम", tTag:"Join code बनाएँ या code से जुड़ें",
-make:"कोड बनाएँ", join:"जॉइन", joinP:"प्रोजेक्ट चुनें",
-makeBtn:"Join Code बनाएँ", codeNote:"यह कोड साथियों से साझा करें",
-mNone:"अभी कोई सदस्य नहीं", joinCodeL:"Join code", joinBtn:"जुड़ें",
-jOk:"जुड़ गए!", jBad:"गलत कोड",
-teamNote:"नोट: कोड अभी केवल इसी डिवाइस पर चलेगा. दूसरे डिवाइस के लिए cloud आगे जुड़ेगा.",
-tRemoved:"निकाल दिया" },
-gu: { tag:"ફિલ્મ પ્રોડક્શન, એક સાંકળ — Script થી Budget સુધી",
-phone:"ફોન નંબર કે ઈમેલ", next:"આગળ વધો", google:"Google થી પ્રવેશ",
-otpTag:"6 આંકડા નો કોડ નાખો (ડેમો: 123456)", verify:"ચકાસો અને પ્રવેશો", wrong:"ખોટો કોડ — ફરી પ્રયત્ન કરો",
-homeTag:"તમારા પ્રોજેક્ટ", newBtn:"+ નવું પ્રોજેક્ટ", contacts:"Contacts",
-team:"ટીમ / Join", out:"બહાર નીકળો",
-newTitle:"નવું પ્રોજેક્ટ", newTag:"સાંકળ નું પહેલું પગલું",
-pName:"પ્રોજેક્ટ નું નામ", pType:"પ્રોજેક્ટ નો પ્રકાર", create:"પ્રોજેક્ટ બનાવો",
-needName:"પહેલા નામ નાખો", needType:"પ્રકાર પસંદ કરો",
-created:"પ્રોજેક્ટ બની ગયો!",
-types:[["ફિચર ફિલ્મ","Sc 1, 2, 3…"],["વેબ સિરીઝ","Ep 1 – Sc 1…"],
-["ડોક્યુમેન્ટ્રી","Part 1, 2…"],["એડ ફિલ્મ","Sc 1…"],["શોર્ટ ફિલ્મ","Sc 1…"]],
-cTitle:"Contacts", cTag:"તમારી Master ફોન બુક",
-cName:"પૂરું નામ", cPhone:"ફોન નંબર", cRole:"ભૂમિકા", cProj:"પ્રોજેક્ટ (ઈચ્છિત)",
-addC:"Contact ઉમેરો", cNeed:"નામ અને ફોન નાખો", cAdded:"ઉમેરાયો!",
-noC:"હજુ કોઈ contact નથી", noProj:"— કોઈ પ્રોજેક્ટ નહીં —",
-tTitle:"ટીમ", tTag:"Join code બનાવો અથવા code થી જોડાઓ",
-make:"કોડ બનાવો", join:"Join", joinP:"પ્રોજેક્ટ પસંદ કરો",
-makeBtn:"Join Code બનાવો", codeNote:"આ કોડ સાથીઓ ને આપો",
-mNone:"હજુ કોઈ સભ્ય નથી", joinCodeL:"Join code", joinBtn:"જોડાઓ",
-jOk:"જોડાઈ ગયા!", jBad:"ખોટો કોડ",
-teamNote:"નોંધ: કોડ હમણાં ફક્ત આ જ ડિવાઈસ પર ચાલશે. બીજા ડિવાઈસ માટે cloud પછી જોડાશે.",
-tRemoved:"કાઢી નાખ્યો" }
-};
-function E(id){ return document.getElementById(id); }
-const store = { get:(k,d)=>JSON.parse(localStorage.getItem(k)||d),
-set:(k,v)=>localStorage.setItem(k,JSON.stringify(v)) };
-let lang = localStorage.getItem("cs_lang") || "gu";
-let pickedType = -1;
-(function(){
-const row = E("otpRow");
-for(let i=0;i<6;i++){
-const b=document.createElement("input");
-b.maxLength=1; b.inputMode="numeric"; b.autocomplete="one-time-code";
-b.addEventListener("input",()=>{ if(b.value.length>1)b.value=b.value.slice(0,1);
-if(b.value&&i<5)row.querySelectorAll("input")[i+1].focus(); });
-b.addEventListener("keydown",e=>{ if(e.key==="Backspace"){
-if(b.value){b.value="";e.preventDefault();}
-else if(i>0){const a=row.querySelectorAll("input");
-a[i-1].focus();a[i-1].value="";e.preventDefault();} }});
-row.appendChild(b);
-}
-})();
-(function(){
-const box=E("types");
-T.gu.types.forEach((tp,i)=>{
-const d=document.createElement("div");
-d.className="type";
-d.innerHTML=tp[0]+"<small></small>";
-d.onclick=()=>{ pickedType=i;
-box.querySelectorAll(".type").forEach(x=>x.classList.remove("on"));
-d.classList.add("on"); renderTypeHints(); };
-box.appendChild(d);
-});
-})();
-function renderTypeHints(){
-const box=E("types");
-box.querySelectorAll(".type").forEach((d,i)=>{
-d.querySelector("small").textContent=(i===pickedType)?T[lang].types[i][1]:"";
-});
-}
-function setLang(l,btn){
-lang=l; localStorage.setItem("cs_lang",l); const t=T[l];
-E("tag").textContent=t.tag;
-E("otpTag").textContent=t.otpTag;
-E("lblPhone").textContent=t.phone;
-E("btnNext").textContent=t.next;
-E("btnVerify").textContent=t.verify;
-E("lblGoogle").textContent=t.google;
-E("homeTag").textContent=t.homeTag;
-E("btnNew").textContent=t.newBtn;
-E("btnContacts").textContent=t.contacts;
-E("btnTeam").textContent=t.team;
-E("btnOut").textContent=t.out;
-E("lblNewTitle").textContent=t.newTitle;
-E("lblNewTag").textContent=t.newTag;
-E("lblPName").textContent=t.pName;
-E("lblPType").textContent=t.pType;
-E("btnCreate").textContent=t.create;
-E("lblCTitle").textContent=t.cTitle;
-E("lblCTag").textContent=t.cTag;
-E("lblCName").textContent=t.cName;
-E("lblCPhone").textContent=t.cPhone;
-E("lblCRole").textContent=t.cRole;
-E("lblCProj").textContent=t.cProj;
-E("btnAddC").textContent=t.addC;
-E("lblTTitle").textContent=t.tTitle;
-E("lblTTag").textContent=t.tTag;
-E("tabMake").textContent=t.make;
-E("tabJoin").textContent=t.join;
-E("lblJoinP").textContent=t.joinP;
-E("btnMake").textContent=t.makeBtn;
-E("codeNote").textContent=t.codeNote;
-E("lblJoinCode").textContent=t.joinCodeL;
-E("btnJoin").textContent=t.joinBtn;
-E("teamNote").textContent=t.teamNote;
-E("types").querySelectorAll(".type").forEach((d,i)=>{
-d.innerHTML=t.types[i][0]+"<small></small>"; });
-renderTypeHints(); renderList(); renderContacts(); renderJoinSel(); renderMembers();
-if(btn){ document.querySelectorAll(".chip").forEach(c=>c.classList.remove("on"));
-btn.classList.add("on"); }
-}
-function toggleDark(){
-document.body.classList.toggle("dark");
-localStorage.setItem("cs_dark",document.body.classList.contains("dark")?"1":"0");
-}
-function show(id){
-document.querySelectorAll(".screen").forEach(s=>s.classList.remove("on"));
-E(id).classList.add("on");
-if(id==="scrHome"){ renderList(); renderJoinSel(); }
-if(id==="scrContacts"){ renderContacts(); fillProjSelect(E("cproj"),true); }
-if(id==="scrTeam"){ renderJoinSel(); renderMembers(); }
-}
-function renderList(){
-const ps=store.get("cs_projects","[]"), box=E("plist");
-box.innerHTML="";
-ps.forEach(p=>{
-const d=document.createElement("div"); d.className="item";
-d.innerHTML="<span>"+p.name+"</span><span class='badge'>"
-+T[lang].types[p.type][0]+"</span>";
-box.appendChild(d);
-});
-}
-function fillProjSelect(sel,withNone){
-const ps=store.get("cs_projects","[]");
-sel.innerHTML="";
-if(withNone){ const o=document.createElement("option");
-o.textContent=T[lang].noProj; o.value=""; sel.appendChild(o); }
-ps.forEach(p=>{ const o=document.createElement("option");
-o.textContent=p.name; o.value=p.name; sel.appendChild(o); });
-}
-function createProject(){
-const t=T[lang], name=E("pname").value.trim(), msg=E("pMsg");
-if(!name){msg.className="msg err";msg.textContent=t.needName;return;}
-if(pickedType<0){msg.className="msg err";msg.textContent=t.needType;return;}
-const ps=store.get("cs_projects","[]");
-ps.push({name:name,type:pickedType});
-store.set("cs_projects",ps);
-E("pname").value=""; pickedType=-1;
-E("types").querySelectorAll(".type").forEach(x=>x.classList.remove("on"));
-renderTypeHints();
-msg.className="msg ok"; msg.textContent=t.created;
-setTimeout(()=>show("scrHome"),600);
-}
-function renderContacts(){
-const t=T[lang], cs=store.get("cs_contacts","[]"), box=E("clist");
-box.innerHTML= cs.length?"":'<p class="empty">'+t.noC+'</p>';
-cs.forEach((c,idx)=>{
-const d=document.createElement("div"); d.className="item";
-d.innerHTML="<span><b>"+c.name+"</b><br><small>"+c.phone+" • "+c.role
-+(c.proj?" • "+c.proj:"")+"</small></span>";
-const del=document.createElement("button"); del.className="del"; del.textContent="✕";
-del.onclick=()=>{ cs.splice(idx,1); store.set("cs_contacts",cs); renderContacts(); };
-d.appendChild(del); box.appendChild(d);
-});
-}
-function addContact(){
-const t=T[lang], name=E("cname").value.trim(), phone=E("cphone").value.trim(),
-role=E("crole").value.trim(), proj=E("cproj").value, msg=E("cMsg");
-if(!name||!phone){msg.className="msg err";msg.textContent=t.cNeed;return;}
-const cs=store.get("cs_contacts","[]");
-cs.push({name:name,phone:phone,role:role||"—",proj:proj});
-store.set("cs_contacts",cs);
-E("cname").value="";
-E("cphone").value="";
-E("crole").value="";
-E("cproj").value="";
-msg.className="msg ok"; msg.textContent=t.cAdded; renderContacts();
-}
-function teamTab(which){
-E("tabMake").classList.toggle("on",which==="make");
-E("tabJoin").classList.toggle("on",which==="join");
-E("paneMake").style.display=which==="make"?"block":"none";
-E("paneJoin").style.display=which==="join"?"block":"none";
-}
-function renderJoinSel(){
-fillProjSelect(E("joinProj"),false);
-}
-function renderMembers(){
-const t=T[lang], mem=store.get("cs_members","[]"), box=E("mlist");
-box.innerHTML= mem.length?"":'<p class="empty">'+t.mNone+'</p>';
-mem.forEach((m,idx)=>{
-const d=document.createElement("div"); d.className="item";
-d.innerHTML="<span><b>"+m.proj+"</b></span><span class='badge g'>"+m.code+"</span>";
-const del=document.createElement("button"); del.className="del"; del.textContent="✕";
-del.onclick=()=>{ mem.splice(idx,1); store.set("cs_members",mem);
-E("codeBox").style.display="none"; renderMembers(); };
-d.appendChild(del); box.appendChild(d);
-});
-}
-function makeCode(){
-const code=Math.random().toString(36).slice(2,8).toUpperCase();
-E("joinCode").textContent=code;
-E("codeBox").style.display="block";
-const mem=store.get("cs_members","[]");
-mem.push({proj:E("joinProj").value||"?", code:code});
-store.set("cs_members",mem); renderMembers();
-}
-function doJoin(){
-const t=T[lang], v=E("joinInput").value.trim().toUpperCase(), msg=E("jMsg");
-const mem=store.get("cs_members","[]");
-const found=mem.find(m=>m.code===v);
-if(found){ msg.className="msg ok"; msg.textContent=t.jOk+" — "+found.proj; }
-else { msg.className="msg err"; msg.textContent=t.jBad; }
-}
-const CODE="123456";
-function sendOtp(){
-if(!E("phone").value.trim()){ E("phone").focus(); return; }
-show("scrOtp"); E("otpRow").querySelectorAll("input")[0].focus();
-}
-function verifyOtp(){
-const code=[...E("otpRow").querySelectorAll("input")].map(i=>i.value).join("");
-if(code===CODE){
-store.set("cs_user",{phone:E("phone").value.trim()});
-E("otpRow").querySelectorAll("input").forEach(i=>i.value="");
-show("scrHome");
-}
-else { E("otpMsg").className="msg err"; E("otpMsg").textContent=T[lang].wrong; }
-}
-function doLogout(){
-store.set("cs_user",null);
-show("scrLogin");
-E("phone").value="";
-}
-if(localStorage.getItem("cs_dark")==="1") document.body.classList
-.add("dark");
-(function(){
-const u=store.get("cs_user",null);
-if(u&&u.phone){ show("scrHome"); }
-})();
-E("phone").addEventListener("keydown",e=>{ if(e.key==="Enter") sendOtp(); });
-const savedLang=localStorage.getItem("cs_lang")||"gu";
-const chips=document.querySelectorAll(".chip");
-setLang(savedLang, savedLang==="en"?chips[0]:savedLang==="hi"?chips[1]:chips[2]);
-</script>
+
+<div class="card screen" id="scrPick">
+  <button class="back" onclick="show('scrProj')">←</button>
+  <div class="c"><div class="logo">📇</div>
+    <h1 id="lblPick"></h1><p class="tag" id="lblPickTag"></p></div>
+  <div id="pickList"></div>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
